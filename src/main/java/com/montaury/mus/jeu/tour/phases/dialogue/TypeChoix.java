@@ -15,6 +15,7 @@ public enum TypeChoix {
   IDOKI("Idoki"),
   TIRA("Tira");
 
+
   public static final List<TypeChoix> INITIAUX = List.of(PASO, IMIDO, HORDAGO);
 
   static {

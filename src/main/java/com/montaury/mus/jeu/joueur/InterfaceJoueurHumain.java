@@ -56,6 +56,12 @@ public class InterfaceJoueurHumain implements InterfaceJoueur {
             println(choixPossibles.stream().map(TypeChoix::nom).collect(Collectors.joining(" | ")));
             String choix = scanner.next();
 
+            if (!choixPossibles.stream().map(TypeChoix::nom).collect(Collectors.joining(" | ")).contains(choix))
+            {
+                print("Message incorrect ! Veuilez écrire les mots comme indiqué : ");
+                continue;
+            }
+
             if (choix.equalsIgnoreCase("Paso")) {
                 return new Paso();
             }

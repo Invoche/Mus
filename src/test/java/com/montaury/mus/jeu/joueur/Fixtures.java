@@ -4,6 +4,11 @@ import com.montaury.mus.jeu.carte.Carte;
 import java.util.Arrays;
 
 public class Fixtures {
+
+  public static Equipe equipe(Joueur joueur){
+    return new Equipe(joueur);
+  }
+
   public static Joueur unJoueur() {
     return new Joueur("Ordinateur", new FausseInterfaceJoueur());
   }

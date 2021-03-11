@@ -1,29 +1,28 @@
 package com.montaury.mus.jeu.joueur;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Opposants {
-  private Joueur joueurEsku;
-  private Joueur joueurZaku;
+  private final LinkedList<Joueur> joueursOrdonnee = new LinkedList<>();
 
-  public Opposants(Joueur joueurEsku, Joueur joueurZaku) {
-    this.joueurEsku = joueurEsku;
-    this.joueurZaku = joueurZaku;
+  public Opposants(Equipe equipeAvecJoueurEsku, Equipe equipeAvecJoueurZaku) {
+    joueursOrdonnee.add(equipeAvecJoueurEsku.joueur);
+    joueursOrdonnee.add(equipeAvecJoueurZaku.joueur);
   }
 
   public void tourner() {
-    Joueur tmp = joueurEsku;
-    joueurEsku = joueurZaku;
-    joueurZaku = tmp;
+    Joueur eskuProchainZaku = joueursOrdonnee.poll();
+    joueursOrdonnee.add(eskuProchainZaku);
   }
 
   public Joueur joueurEsku() {
-    return joueurEsku;
+    return joueursOrdonnee.peek();
   }
 
   public Joueur joueurZaku() {
-    return joueurZaku;
+    return joueursOrdonnee.getLast();
   }
 
   public Iterator<Joueur> itererDansLOrdre() {
@@ -31,7 +30,7 @@ public class Opposants {
   }
 
   public List<Joueur> dansLOrdre() {
-    return List.of(joueurEsku, joueurZaku);
+    return List.of(joueurEsku(), joueurZaku());
   }
 
   private static class IteratorInfini implements Iterator<Joueur> {
@@ -40,7 +39,7 @@ public class Opposants {
 
     public IteratorInfini(Opposants opposants) {
       this.opposants = opposants;
-      suivant = opposants.joueurEsku;
+      suivant = opposants.joueurEsku();
     }
 
     @Override
@@ -51,7 +50,7 @@ public class Opposants {
     @Override
     public Joueur next() {
       Joueur next = suivant;
-      suivant = suivant == opposants.joueurEsku ? opposants.joueurZaku : opposants.joueurEsku;
+      suivant = suivant == opposants.joueurEsku() ? opposants.joueurZaku() : opposants.joueurEsku();
       return next;
     }
   }

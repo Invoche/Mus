@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class Fixtures {
 
   public static Equipe equipe(Joueur joueur){
-    return new Equipe(joueur);
+    return new Equipe(joueur,joueur);
   }
 
   public static Joueur unJoueur() {

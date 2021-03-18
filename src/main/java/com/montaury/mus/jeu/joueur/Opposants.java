@@ -8,13 +8,30 @@ public class Opposants {
   private final LinkedList<Joueur> joueursOrdonnee = new LinkedList<>();
 
   public Opposants(Equipe equipeAvecJoueurEsku, Equipe equipeAvecJoueurZaku) {
-    joueursOrdonnee.add(equipeAvecJoueurEsku.joueur);
-    joueursOrdonnee.add(equipeAvecJoueurZaku.joueur);
+    joueursOrdonnee.add(equipeAvecJoueurEsku.joueurA);
+    joueursOrdonnee.add(equipeAvecJoueurZaku.joueurA);
+    joueursOrdonnee.add(equipeAvecJoueurEsku.joueurB);
+    joueursOrdonnee.add(equipeAvecJoueurZaku.joueurB);
   }
 
   public void tourner() {
     Joueur eskuProchainZaku = joueursOrdonnee.poll();
     joueursOrdonnee.add(eskuProchainZaku);
+  }
+
+  public Equipe deuxJoueursOpposants(Joueur joueurCourant, Equipe equipe1, Equipe equipe2) {
+    Joueur adversaire1;
+    Joueur adversaire2;
+
+    if (joueurCourant == equipe1.joueurA || joueurCourant == equipe1.joueurB) {
+      adversaire1 = equipe2.joueurA;
+      adversaire2 = equipe2.joueurB;
+    } else {
+      adversaire1 = equipe1.joueurA;
+      adversaire2 = equipe1.joueurB;
+    }
+    Equipe adversaire = new Equipe(adversaire1, adversaire2);
+    return adversaire;
   }
 
   public Joueur joueurEsku() {
@@ -30,7 +47,7 @@ public class Opposants {
   }
 
   public List<Joueur> dansLOrdre() {
-    return List.of(joueurEsku(), joueurZaku());
+    return List.of(joueurEsku(), joueursOrdonnee.get(1), joueursOrdonnee.get(2), joueurZaku());
   }
 
   private static class IteratorInfini implements Iterator<Joueur> {
@@ -50,7 +67,15 @@ public class Opposants {
     @Override
     public Joueur next() {
       Joueur next = suivant;
-      suivant = suivant == opposants.joueurEsku() ? opposants.joueurZaku() : opposants.joueurEsku();
+      for (int i = 0; i < 3; i++) {
+        if (suivant == opposants.joueursOrdonnee.get(i)) {
+          suivant = opposants.joueursOrdonnee.get(i+1);
+          break;
+        }
+      }
+      if(suivant == opposants.joueurZaku()){
+        suivant = opposants.joueurEsku();
+      }
       return next;
     }
   }

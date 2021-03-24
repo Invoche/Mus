@@ -19,24 +19,46 @@ public class Opposants {
     joueursOrdonnee.add(eskuProchainZaku);
   }
 
-  public Equipe deuxJoueursOpposants(Joueur joueurCourant, Equipe equipe1, Equipe equipe2) {
+  public LinkedList<Joueur> joueursAdversaires(Joueur joueurCourant) {
     Joueur adversaire1;
     Joueur adversaire2;
 
-    if (joueurCourant == equipe1.joueurA || joueurCourant == equipe1.joueurB) {
-      adversaire1 = equipe2.joueurA;
-      adversaire2 = equipe2.joueurB;
+    if (joueurCourant == joueursOrdonnee.peek() || joueurCourant == joueursOrdonnee.get(2)) {
+      adversaire1 = joueursOrdonnee.get(1);
+      adversaire2 = joueursOrdonnee.getLast();
     } else {
-      adversaire1 = equipe1.joueurA;
-      adversaire2 = equipe1.joueurB;
+      adversaire1 = joueursOrdonnee.peek();
+      adversaire2 = joueursOrdonnee.get(2);
     }
-    Equipe adversaire = new Equipe(adversaire1, adversaire2);
-    return adversaire;
+    LinkedList<Joueur> adversaires = new LinkedList<>();
+    adversaires.add(adversaire1);
+    adversaires.add(adversaire2);
+    return adversaires;
   }
+
+  public LinkedList<Joueur> retirer(Joueur joueurCourant){
+    Joueur j;
+    while(joueursOrdonnee.peek() == joueurCourant){
+      j = joueursOrdonnee.poll();
+      joueursOrdonnee.add(j);
+    }
+    joueursOrdonnee.poll();
+    return joueursOrdonnee;
+    }
+
 
   public Joueur joueurEsku() {
     return joueursOrdonnee.peek();
   }
+
+  public Joueur coequipierJoueurEsku() {
+    return joueursOrdonnee.get(2);
+  }
+
+  public Joueur coequipierJoueurZaku() {
+    return joueursOrdonnee.get(1);
+  }
+
 
   public Joueur joueurZaku() {
     return joueursOrdonnee.getLast();

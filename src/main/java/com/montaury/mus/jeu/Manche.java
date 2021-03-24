@@ -33,6 +33,8 @@ public class Manche {
 
     public Score(Opposants opposants) {
       scoreParJoueur.put(opposants.joueurEsku(), 0);
+      scoreParJoueur.put(opposants.coequipierJoueurEsku(), 0);
+      scoreParJoueur.put(opposants.coequipierJoueurZaku(), 0);
       scoreParJoueur.put(opposants.joueurZaku(), 0);
     }
 

@@ -4,23 +4,38 @@ import com.montaury.mus.jeu.joueur.AffichageEvenementsDeJeu;
 import com.montaury.mus.jeu.joueur.Joueur;
 import com.montaury.mus.jeu.joueur.Opposants;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.montaury.mus.jeu.tour.phases.dialogue.TypeChoix.PASO;
+import static com.montaury.mus.jeu.tour.phases.dialogue.TypeChoix.*;
 
 public class Dialogue {
   private final List<ChoixJoueur> choix = new ArrayList<>();
 
   public final DialogueTermine derouler(AffichageEvenementsDeJeu affichage, Opposants opposants) {
-    Iterator<Joueur> iteratorJoueur = opposants.itererDansLOrdre();
-    do {
-      Joueur parlant = iteratorJoueur.next();
-      Choix choixJoueur = parlant.interfaceJoueur.faireChoixParmi(prochainsChoixPossibles());
+    Iterator<Joueur> joueursParlant = opposants.dansLOrdre().iterator();
+    List<TypeChoix> prochainsChoix = TypeChoix.INITIAUX;
+    List<ChoixJoueur> choix = new ArrayList<>();
+
+    while (joueursParlant.hasNext()){
+      Joueur parlant = joueursParlant.next();
+      Choix choixJoueur = parlant.interfaceJoueur.faireChoixParmi(prochainsChoix);
       affichage.choixFait(parlant, choixJoueur);
-      ajouter(choixJoueur, parlant);
+      choix.add(new ChoixJoueur(choixJoueur, parlant));
+
+      if(choixJoueur.estUneMise()){
+        joueursParlant = opposants.joueursAdversaires(parlant).iterator();
+        prochainsChoix = choixJoueur.prochainsChoixPossibles();
+      }
+      else if(choixJoueur.est(TIRA)){
+        opposants.retirer(parlant);
+      }
+      else if(choixJoueur.est(KANTA) || choixJoueur.est(IDOKI)){
+        joueursParlant = Collections.emptyIterator();
+        prochainsChoix = Collections.emptyList();
+      }
     }
-    while (enCours());
     return new DialogueTermine(choix);
   }
 

@@ -1,5 +1,6 @@
 package com.montaury.mus.jeu.tour.phases.dialogue;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public abstract class Choix {
@@ -17,6 +18,15 @@ public abstract class Choix {
 
   public TypeChoix type() {
     return type;
+  }
+
+  public boolean estUneMise(){
+    if(this.type == TypeChoix.IMIDO || this.type == TypeChoix.GEHIAGO || this.type == TypeChoix.HORDAGO){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   public boolean est(TypeChoix type) {

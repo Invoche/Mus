@@ -36,6 +36,27 @@ public class Opposants {
     return adversaires;
   }
 
+  public LinkedList<Joueur> garderMemoire(LinkedList<Joueur> joueurTemporaire) {
+  joueurTemporaire.add(joueursOrdonnee.peek());
+  joueurTemporaire.add(joueursOrdonnee.get(1));
+  joueurTemporaire.add(joueursOrdonnee.get(2));
+  joueurTemporaire.add(joueursOrdonnee.getLast());
+
+  return joueurTemporaire;
+  }
+
+  public LinkedList<Joueur> setOpposant(LinkedList<Joueur> joueursInitiaux){
+    while(!joueursOrdonnee.isEmpty()){
+      joueursOrdonnee.poll();
+    }
+    joueursOrdonnee.add(joueursInitiaux.peek());
+    joueursOrdonnee.add(joueursInitiaux.get(1));
+    joueursOrdonnee.add(joueursInitiaux.get(2));
+    joueursOrdonnee.add(joueursInitiaux.getLast());
+
+    return joueursOrdonnee;
+  }
+
   public LinkedList<Joueur> retirer(Joueur joueurCourant){
     Joueur j;
     while(joueursOrdonnee.peek() == joueurCourant){

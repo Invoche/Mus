@@ -3,10 +3,9 @@ package com.montaury.mus.jeu.tour.phases.dialogue;
 import com.montaury.mus.jeu.joueur.AffichageEvenementsDeJeu;
 import com.montaury.mus.jeu.joueur.Joueur;
 import com.montaury.mus.jeu.joueur.Opposants;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+
+import java.util.*;
+import java.util.concurrent.LinkedTransferQueue;
 
 import static com.montaury.mus.jeu.tour.phases.dialogue.TypeChoix.*;
 
@@ -17,6 +16,8 @@ public class Dialogue {
     Iterator<Joueur> joueursParlant = opposants.dansLOrdre().iterator();
     List<TypeChoix> prochainsChoix = TypeChoix.INITIAUX;
     List<ChoixJoueur> choix = new ArrayList<>();
+    LinkedList<Joueur> joueursTemporaires = new LinkedList<>();
+    opposants.garderMemoire(joueursTemporaires);
 
     while (joueursParlant.hasNext()){
       Joueur parlant = joueursParlant.next();
@@ -36,6 +37,7 @@ public class Dialogue {
         prochainsChoix = Collections.emptyList();
       }
     }
+    opposants.setOpposant(joueursTemporaires);
     return new DialogueTermine(choix);
   }
 

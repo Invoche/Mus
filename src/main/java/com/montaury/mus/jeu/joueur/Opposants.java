@@ -80,17 +80,16 @@ public class Opposants {
     return joueursOrdonnee.get(1);
   }
 
-
   public Joueur joueurZaku() {
     return joueursOrdonnee.getLast();
   }
 
-  public Iterator<Joueur> itererDansLOrdre() {
-    return new IteratorInfini(this);
+  public List<Joueur> dansLOrdre() {
+    return List.of(joueurEsku(), coequipierJoueurZaku(), coequipierJoueurEsku(), joueurZaku());
   }
 
-  public List<Joueur> dansLOrdre() {
-    return List.of(joueurEsku(), joueursOrdonnee.get(1), joueursOrdonnee.get(2), joueurZaku());
+  public Iterator<Joueur> itererDansLOrdre() {
+    return new IteratorInfini(this);
   }
 
   private static class IteratorInfini implements Iterator<Joueur> {
